@@ -173,10 +173,14 @@ function compareProperties(
   const bKey = getKeyValuePriorityAndType(bKeyValue);
 
   if (aKey.type !== 'string' || bKey.type !== 'string') {
-    return aKey.priority > bKey.priority ? 1 : -1;
+    if (aKey.priority !== bKey.priority) {
+      return aKey.priority > bKey.priority ? 1 : -1;
+    }
+    // Same priority bucket — sort alphabetically by key name
+    return aKeyValue > bKeyValue ? 1 : aKeyValue < bKeyValue ? -1 : 0;
   }
 
-  return aKeyValue > bKeyValue ? 1 : -1;
+  return aKeyValue > bKeyValue ? 1 : aKeyValue < bKeyValue ? -1 : 0;
 }
 
 function getKeyValue(
